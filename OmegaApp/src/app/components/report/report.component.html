@@ -1,0 +1,49 @@
+<div class="card text-white mb-12" style="">
+  <div class="card-header bg-primary">Report
+  </div>
+  <div class="card-body">
+
+    <div class="row">
+      <div class="col-md-2">
+        <ul class="list-group">
+          <li class="list-group-item" [class.active]="selectedStudent!=undefined && s.rollNumber==selectedStudent.rollNumber" *ngFor="let s of students" (click)="studentSelected(s.rollNumber)">{{s.name}}</li>
+        </ul>
+      </div>
+      <div class="col-md-6" *ngIf="selectedStudent">
+
+        <table class="table" *ngIf="report">
+          <tbody>
+            <tr><td><b>Name</b></td>
+              <td>{{report.student[0].name}}</td> </tr>
+            <tr><td><b>Roll No</b></td>
+              <td>{{report.student[0].rollNumber}}</td> </tr>
+            <tr>
+              <td><b>Opted Subjects</b></td> <td>
+              <ng-container *ngFor="let s of report.subjects"><span  class="badge bg-secondary bg-info text-dark">{{s.name}}</span>&nbsp;</ng-container>
+              </td>
+            </tr>
+            <tr><td><b>Exams</b></td>
+              <td>
+                <ng-container *ngFor="let e of report.exams">
+
+                  <span class="badge {{ e.marks >30 ? (e.marks > 70 ? 'bg-warning text-dark' : 'bg-success') : 'bg-danger'}}"
+                  >{{e.subjectName +" : "+ e.marks}}</span> &nbsp;
+
+                </ng-container>
+
+              </td>
+             </tr>
+          </tbody>
+        </table>
+
+      </div>
+      <div class="col-md-4" *ngIf="selectedStudent">
+        <img src="https://i.imgur.com/cO2gvTs.png"/>
+      </div>
+
+    </div>
+
+
+
+  </div>
+</div>

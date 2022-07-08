@@ -1,0 +1,89 @@
+<div class="card text-white mb-12">
+  <div class="card-header bg-primary">Exams
+    <button class="btn btn-warning btn-sm float-end" (click)="addExamDialog()">Add</button>
+  </div>
+  <div class="card-body">
+
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Exam Id</th>
+        <th scope="col">Student</th>
+        <th scope="col">Subject</th>
+        <th scope="col">Marks</th>
+        <th scope="col">Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let e of exams; let i = index" [attr.data-index]="i">
+        <th scope="row">{{i+1}}</th>
+        <td>{{e.examId}}</td>
+        <td>{{e.student?.name}}</td>
+        <td>{{e.subject?.name}}</td>
+        <td>{{e.marks}}</td>
+        <td>
+          <button class="btn btn-primary btn-sm" (click)="editExamDialog(e.examId)">Edit</button> &nbsp;
+          <button class="btn btn-danger btn-sm" (click)="confirmDelete(e.examId)">Delete</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+
+<!-- Add/Edit Modal -->
+<div class="modal" id="examModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{editMode ? 'Update Exam' : 'Add Exam' }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <label for="inputStudentName" class="form-label">Student Name</label>
+        <select class="form-select" aria-label="Student" [(ngModel)]="rollNumber" [disabled]="editMode"
+        (ngModelChange)="studentSelected($event)">
+          <option selected>Select student</option>
+          <option *ngFor="let s of students" value="{{s.rollNumber}}">{{s.name}}</option>
+        </select>
+
+        <label for="inputSubjectName" class="form-label">Subject Name</label>
+        <select class="form-select" aria-label="Subject" [(ngModel)]="subjectCode" [disabled]="editMode">
+          <option selected>Select subject</option>
+          <option *ngFor="let s of subjectsForStudent" value="{{s.code}}">{{s.name}}</option>
+        </select>
+
+        <label for="inputStudentMarks" class="form-label">Marks</label>
+        <input type="text" id="inputStudentName" [(ngModel)]="marks" class="form-control">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" #closeButton id="closeButton" class="btn btn-secondary" (click)="closeModal()">Close</button>
+        <button type="button" *ngIf="!editMode" class="btn btn-primary" (click)="addExam();">Add Exam Data</button>
+        <button type="button" *ngIf="editMode" class="btn btn-primary" (click)="updateExam(examId);">Update Exam Data</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Confirmation Modal-->
+<div class="modal fade" id="confirmExamModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{confirmObj.confirmHeader}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" [innerHTML]="confirmObj.confirmMessage">
+      </div>
+      <div class="modal-footer">
+        <button type="button" #closeButton id="closeButton" class="btn btn-secondary" (click)="confirmObj.cancel()">Close</button>
+        <button type="button" *ngIf="!editMode" class="btn btn-primary" (click)="confirmObj.confirm()">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>

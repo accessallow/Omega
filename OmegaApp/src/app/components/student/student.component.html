@@ -1,0 +1,73 @@
+<div class="card text-white mb-12" style="">
+  <div class="card-header bg-primary">Students
+    <button class="btn btn-warning btn-sm float-end" (click)="addStudentDialog()">Add</button>
+  </div>
+  <div class="card-body">
+
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Roll Number</th>
+        <th scope="col">Name</th>
+        <th scope="col">Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let student of students; let i = index" [attr.data-index]="i">
+        <th scope="row">{{i+1}}</th>
+        <td>{{student.rollNumber}}</td>
+        <td>{{student.name}}</td>
+        <td>
+          <button class="btn btn-primary btn-sm" (click)="editStudentDialog(student.rollNumber)">Edit</button> &nbsp;
+          <button class="btn btn-danger btn-sm" (click)="confirmDelete(student.rollNumber)">Delete</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+
+<!-- Add/Edit Modal -->
+<div class="modal fade" id="studentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{editMode ? 'Update Student' : 'Add Student' }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <label for="inputStudentName" class="form-label">Student Name</label>
+        <input type="text" id="inputStudentName" [(ngModel)]="studentName" class="form-control">
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" #closeButton id="closeButton" class="btn btn-secondary" (click)="closeModal()">Close</button>
+        <button type="button" *ngIf="!editMode" class="btn btn-primary" (click)="addStudent();">Add Student</button>
+        <button type="button" *ngIf="editMode" class="btn btn-primary" (click)="updateStudent(studentRollNumber);">Update Student</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Confirmation Modal-->
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{confirmObj.confirmHeader}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" [innerHTML]="confirmObj.confirmMessage">
+      </div>
+      <div class="modal-footer">
+        <button type="button" #closeButton id="closeButton" class="btn btn-secondary" (click)="confirmObj.cancel()">Close</button>
+        <button type="button" *ngIf="!editMode" class="btn btn-primary" (click)="confirmObj.confirm()">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>

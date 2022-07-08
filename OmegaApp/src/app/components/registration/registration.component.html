@@ -1,0 +1,84 @@
+<div class="card text-white mb-12">
+  <div class="card-header bg-primary">Registrations
+    <button class="btn btn-warning btn-sm float-end" (click)="addRegistrationDialog()">Add</button>
+  </div>
+  <div class="card-body">
+
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Registration Id</th>
+        <th scope="col">Student</th>
+        <th scope="col">Subject</th>
+        <th scope="col">Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let reg of registrations; let i = index" [attr.data-index]="i">
+        <th scope="row">{{i+1}}</th>
+        <td>{{reg.registrationId}}</td>
+        <td>{{reg.studentName}}</td>
+        <td>{{reg.subjectName}}</td>
+        <td>
+          <button class="btn btn-primary btn-sm" (click)="editRegistrationDialog(reg.registrationId)">Edit</button> &nbsp;
+          <button class="btn btn-danger btn-sm" (click)="confirmDelete(reg.registrationId)">Delete</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+
+<!-- Add/Edit Modal -->
+<div class="modal fade" id="regModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{editMode ? 'Update Registration' : 'Add Registration' }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <label for="inputStudentName" class="form-label">Student Name</label>
+        <select class="form-select" aria-label="Student" [(ngModel)]="rollNumber" [disabled]="editMode">
+          <option selected>Select student</option>
+          <option *ngFor="let s of students" value="{{s.rollNumber}}">{{s.name}}</option>
+        </select>
+
+        <label for="inputSubjectName" class="form-label">Subject Name</label>
+        <select class="form-select" aria-label="Subject" [(ngModel)]="subjectCode">
+          <option selected>Select subject</option>
+          <option *ngFor="let s of subjects" value="{{s.code}}">{{s.name}}</option>
+        </select>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" #closeButton id="closeButton" class="btn btn-secondary" (click)="closeModal()">Close</button>
+        <button type="button" *ngIf="!editMode" class="btn btn-primary" (click)="addRegistration();">Add Registration</button>
+        <button type="button" *ngIf="editMode" class="btn btn-primary" (click)="updateRegistration(regId);">Update Registration</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Confirmation Modal-->
+<div class="modal fade" id="confirmRegModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{confirmObj.confirmHeader}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" [innerHTML]="confirmObj.confirmMessage">
+      </div>
+      <div class="modal-footer">
+        <button type="button" #closeButton id="closeButton" class="btn btn-secondary" (click)="confirmObj.cancel()">Close</button>
+        <button type="button" *ngIf="!editMode" class="btn btn-primary" (click)="confirmObj.confirm()">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
