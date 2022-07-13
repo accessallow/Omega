@@ -11,6 +11,10 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'logout', component: LogoutComponent },
   { path: 'home', component: HomeComponent , canActivate: [CanActivateRouteGuard]},
+  {
+    path: 'project',
+    loadChildren: () => import('./features/project/project.module').then(m => m.ProjectModule)
+  },
   { path: '**', component: LoginComponent }
 ];
 

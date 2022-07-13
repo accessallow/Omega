@@ -1,6 +1,6 @@
 package com.omega.service;
 
-import com.omega.jpa.Customer;
+import com.omega.model.Customer;
 import com.omega.jpa.CustomerRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,5 +1,4 @@
-package com.omega.model;
-
+package com.omega.model.project;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,18 +8,21 @@ import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Relationship;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Node
 @Getter @Setter @NoArgsConstructor
-public class Epic {
+public class Project {
     @Id
     @GeneratedValue
     private Long id;
-    private String epicName;
-    private List<String> labels;
+    private String name;
     private String description;
+    private ProjectStatus status;
+    private ZonedDateTime start;
+    private ZonedDateTime end;
 
-    @Relationship(type="HAS_STORIES")
-    private List<Issue> stories;
+    @Relationship(type = "HAS_RELEASE")
+    private List<Release> releases;
 }

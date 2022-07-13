@@ -1,5 +1,4 @@
-package com.omega.model;
-
+package com.omega.model.project;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,20 +6,18 @@ import lombok.Setter;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
-import org.springframework.data.neo4j.core.schema.Relationship;
 
-import java.util.List;
+import java.time.ZonedDateTime;
 
 @Node
 @Getter @Setter @NoArgsConstructor
-public class Epic {
-    @Id
-    @GeneratedValue
+public class Event {
+    @Id @GeneratedValue
     private Long id;
-    private String epicName;
-    private List<String> labels;
+    private String name;
     private String description;
-
-    @Relationship(type="HAS_STORIES")
-    private List<Issue> stories;
+    private EventStatus status;
+    private ZonedDateTime start;
+    private ZonedDateTime end;
+    private int duration;
 }

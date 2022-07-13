@@ -25,6 +25,22 @@ export class MenuService {
           icon:'bi bi-power'
         }
       ]
+    },
+    {
+      title:'Projects',
+      icon :'bi bi-kanban',
+      children: [
+        {
+          title: 'All',
+          routerLink: '/project/all',
+          icon: 'bi bi-list-ul'
+        },
+        {
+          title: 'Create',
+          routerLink: '/project/create',
+          icon: 'bi bi-folder-plus'
+        }
+      ]
     }
   ];
 }

@@ -1,26 +1,23 @@
 package com.omega.model;
 
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
-import org.springframework.data.neo4j.core.schema.Relationship;
 
-import java.util.List;
+import java.time.ZonedDateTime;
 
 @Node
 @Getter @Setter @NoArgsConstructor
-public class Epic {
+public class WorkLog {
     @Id
     @GeneratedValue
     private Long id;
-    private String epicName;
-    private List<String> labels;
-    private String description;
 
-    @Relationship(type="HAS_STORIES")
-    private List<Issue> stories;
+    private String username;
+    private String description;
+    private float time;
+    private ZonedDateTime loggedTime;
 }

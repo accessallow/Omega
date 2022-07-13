@@ -1,6 +1,6 @@
 package com.omega.service;
 
-import com.omega.jpa.Customer;
+import com.omega.model.Customer;
 import org.springframework.security.core.userdetails.User;
 
 import java.util.Optional;
