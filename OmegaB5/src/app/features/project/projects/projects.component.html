@@ -1,0 +1,179 @@
+<app-header></app-header>
+
+<!-- Begin page content -->
+<main class="flex-shrink-0">
+  <div class="container">
+
+
+    <div class="row">
+      <div class="col-md-12">
+
+        <div class="row">
+          <div class="col-md-10">
+            <h3>Projects</h3>
+          </div>
+          <div class="col-md-2" style="text-align:right;margin-top: 10px;">
+            <a [routerLink]="'/project/create'"
+            class="btn btn-success btn-sm">
+            <i class="bi bi-folder-plus"></i>&nbsp;Create
+          </a>
+          </div>
+        </div>
+
+        <hr/>
+
+        <div class="row">
+          <div class="col-md-12">
+
+            <table class="table table-hover table-bordered table-striped table-responsive">
+              <thead class="bg-dark text-white">
+                  <tr>
+                    <td>Id</td>
+                    <td>Name</td>
+                    <td>Description</td>
+                    <td>Status</td>
+                    <td>Start</td>
+                    <td>End</td>
+                    <td>Releases</td>
+                    <td class="col-md-2">Action</td>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let project of projects; let i = index" [attr.data-index]="i">
+                    <td>{{project.id}}</td>
+                    <td>{{project.name}}</td>
+                    <td>{{project.description}}</td>
+                    <td [innerHtml]="project.status | status"></td>
+                    <td >
+                      <span class="badge bg-success"
+                      (click)="openCalender(calender,project.start)">{{project.start}}</span>
+                    </td>
+                    <td>
+                      <span class="badge bg-danger"
+                      (click)="openCalender(calender, project.end)">{{project.end}}</span>
+                    </td>
+                    <td>
+                      <span
+                      style="margin-right:5px; cursor:pointer;"
+                      *ngFor="let r of project.releases"
+                      class="badge bg-secondary"  (click)="open(content,r)">
+                          {{r.name}}
+                      </span>
+
+                    </td>
+                    <td>
+
+                      <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                        <button class="btn btn-primary btn-sm">Edit</button>
+                      <button class="btn btn-info btn-sm">Details</button>
+                      <button class="btn btn-danger btn-sm" (click)="deleteProjectPage(project.id)">Delete</button>
+                      </div>
+                    </td>
+                  </tr>
+              </tbody>
+            </table>
+
+            <p class="placeholder-glow" *ngIf="loading">
+              <span class="placeholder col-10 bg-primary"></span>
+              <span class="placeholder col-8"></span>
+              <span class="placeholder col-11 bg-success"></span>
+            </p>
+
+
+            <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <ng-template #content let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Release : {{selectedRelease!=null? selectedRelease.name : ''}}</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+      </div>
+      <div class="modal-body">
+        <ng-container *ngIf="selectedRelease">
+          <h4><span class="badge bg-secondary">Sprints</span></h4>
+          <!-- <hr/> -->
+          <table class="table table-hover table-striped table-compact">
+            <thead class="bg-dark text-white">
+                  <tr>
+                    <td>Id</td>
+                    <td>Name</td>
+                    <td>Description</td>
+                    <td>Status</td>
+                    <td>Start</td>
+                    <td>End</td>
+                    <td>Duration</td>
+                    <td>Label</td>
+                  </tr>
+            </thead>
+            <tbody>
+                  <tr *ngFor="let s of selectedRelease.sprints">
+                    <td>{{s.id}}</td>
+                    <td>{{s.name}}</td>
+                    <td>{{s.description}}</td>
+                    <td [innerHtml]="s.status | status"></td>
+                    <td><span class="badge bg-primary">{{s.start}}</span></td>
+                    <td><span class="badge bg-danger">{{s.end}}</span></td>
+                    <td>{{s.duration}}</td>
+                    <td><span class="badge bg-primary">{{s.label}}</span></td>
+                  </tr>
+            </tbody>
+          </table>
+          <br/>
+          <h4><span class="badge bg-secondary">Release Events</span></h4>
+          <!-- <hr/> -->
+          <table class="table table-hover table-striped table-compact">
+            <thead class="bg-dark text-white">
+                  <tr>
+                    <td>Id</td>
+                    <td>Name</td>
+                    <td>Description</td>
+                    <td>Status</td>
+                    <td>Start</td>
+                    <td>End</td>
+                    <td>Duration</td>
+                  </tr>
+            </thead>
+            <tbody>
+                  <tr *ngFor="let r of selectedRelease.releaseEvents">
+                    <td>{{r.id}}</td>
+                    <td>{{r.name}}</td>
+                    <td>{{r.description}}</td>
+                    <td [innerHtml]="r.status | status"></td>
+                    <td>{{r.start}}</td>
+                    <td>{{r.end}}</td>
+                    <td>{{r.duration}}</td>
+                  </tr>
+            </tbody>
+          </table>
+        </ng-container>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Close')">Close</button>
+      </div>
+    </ng-template>
+
+
+
+    <ng-template #calender let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Date : {{selectedDate}}</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+      </div>
+      <div class="modal-body" style="text-align: center;">
+        <ngb-datepicker #dp
+        [(ngModel)]="model"
+        ></ngb-datepicker>
+      </div>
+
+    </ng-template>
+
+  </div>
+
+
+</main>

@@ -1,0 +1,28 @@
+<app-header></app-header>
+
+<!-- Begin page content -->
+<main class="flex-shrink-0">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        Are you sure want to delete this project: <b>{{project.name}}</b>?
+
+        <ng-container *ngIf="project">
+            <pre style="max-width:550px;max-height:300px;">
+              {{project|json}}
+            </pre>
+
+        </ng-container>
+
+        <div class="row">
+            <div class="col-md-3">
+              <button class="btn btn-sm btn-danger" (click)="deleteAndBack()">Delete</button> &nbsp;
+              <button class="btn btn-sm btn-primary" (click)="cancelAndBack()">Cancel</button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</main>

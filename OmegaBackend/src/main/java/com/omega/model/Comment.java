@@ -6,6 +6,8 @@ import lombok.Setter;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
+
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 @Node
@@ -18,5 +20,5 @@ public class Comment {
 
     private String user;
     private String text;
-    private ZonedDateTime commentTime;
+    private LocalDateTime commentTime;
 }

@@ -1,5 +1,6 @@
 package com.omega.model.project;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,6 +9,7 @@ import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Relationship;
 
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -19,8 +21,10 @@ public class Release {
     private String name;
     private String description;
     private ReleaseStatus status;
-    private ZonedDateTime start;
-    private ZonedDateTime end;
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private LocalDateTime start;
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private LocalDateTime end;
     private String label;
 
     @Relationship(type = "HAS_SPRINT")

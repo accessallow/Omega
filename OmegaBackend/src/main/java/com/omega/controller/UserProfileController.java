@@ -120,10 +120,10 @@ public class UserProfileController {
         Comment c1 = new Comment();
         c1.setUser(SecurityContextHolder.getContext().getAuthentication().getName());
         c1.setText("Sample Comment");
-        c1.setCommentTime(ZonedDateTime.now());
+//        c1.setCommentTime(ZonedDateTime.now());
 
         WorkLog w1 = new WorkLog();
-        w1.setLoggedTime(ZonedDateTime.now());
+//        w1.setLoggedTime(ZonedDateTime.now());
         w1.setTime(2);
         w1.setDescription("Test work log");
 
@@ -146,8 +146,8 @@ public class UserProfileController {
 
         Project p = new Project();
         p.setName("Test Project");
-        p.setStart(projectStart);
-        p.setEnd(projectStart.plusYears(2));
+//        p.setStart(projectStart);
+//        p.setEnd(projectStart.plusYears(2));
         p.setStatus(ProjectStatus.PLANNED);
         p.setDescription("Test Project Description");
 
@@ -156,8 +156,8 @@ public class UserProfileController {
         r1.setName("R1");
         r1.setLabel("R1");
         r1.setStatus(ReleaseStatus.PLANNED);
-        r1.setStart(projectStart);
-        r1.setEnd(projectStart.plusMonths(3));
+//        r1.setStart(projectStart);
+//        r1.setEnd(projectStart.plusMonths(3));
         List<Sprint> r1Sprints = getReleaseSprints(projectStart,3);
         r1.setSprints(r1Sprints);
         Event r1ReleaseEvent = new Event();
@@ -169,8 +169,8 @@ public class UserProfileController {
         r2.setName("R2");
         r2.setLabel("R2");
         r2.setStatus(ReleaseStatus.PLANNED);
-        r2.setStart(projectStart.plusMonths(3));
-        r2.setEnd(projectStart.plusMonths(6));
+//        r2.setStart(projectStart.plusMonths(3));
+//        r2.setEnd(projectStart.plusMonths(6));
         List<Sprint> r2Sprints = getReleaseSprints(projectStart.plusMonths(3),3);
         r2.setSprints(r2Sprints);
         Event r2ReleaseEvent = new Event();
@@ -204,8 +204,8 @@ public class UserProfileController {
             sp1.setStatus(SprintStatus.PLANNED);
             sp1.setDuration(15);
             sp1.setDescription("Sprint-"+i+" description");
-            sp1.setStart(releaseStart.plusDays((i-1)*21));
-            sp1.setEnd(releaseStart.plusDays((i)*21));
+//            sp1.setStart(releaseStart.plusDays((i-1)*21));
+//            sp1.setEnd(releaseStart.plusDays((i)*21));
             releaseSprints.add(sp1);
         }
         return releaseSprints;
