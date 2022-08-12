@@ -64,7 +64,7 @@
                     <td>
 
                       <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-                        <button class="btn btn-primary btn-sm">Edit</button>
+                        <button class="btn btn-primary btn-sm" (click)="updateProjectPage(project.id)">Edit</button>
                       <button class="btn btn-info btn-sm">Details</button>
                       <button class="btn btn-danger btn-sm" (click)="deleteProjectPage(project.id)">Delete</button>
                       </div>
@@ -78,6 +78,9 @@
               <span class="placeholder col-8"></span>
               <span class="placeholder col-11 bg-success"></span>
             </p>
+
+
+            <p *ngIf="debugMode">This is debug mode paragraph</p>
 
 
             <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

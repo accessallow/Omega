@@ -10,6 +10,7 @@ import { MenuService } from 'src/app/services/menu.service';
 export class HeaderComponent implements OnInit {
   menu : any[] = [];
   appName : string = 'Test';
+  debugMode: boolean = false;
 
   constructor(private menuService: MenuService, private appConfig : AppConfigService) {
       this.menu = this.menuService.menu;
@@ -17,6 +18,10 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  toggleDebugMode(){
+    this.appConfig.debugMode.next(this.debugMode);
   }
 
 }

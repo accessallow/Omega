@@ -34,4 +34,15 @@ public class ProjectController {
         this.projectRepository.delete(toDelete);
         return toDelete;
     }
+
+    @PostMapping(value = "/api/project/update",produces = "application/json")
+    public Project updateProject(@RequestBody Project project){
+        Project projectToUpdate = this.projectRepository.findById(project.getId()).get();
+        projectToUpdate.setName(project.getName());
+        projectToUpdate.setDescription(project.getDescription());
+        projectToUpdate.setStart(project.getStart());
+        projectToUpdate.setEnd(project.getEnd());
+        projectToUpdate.setStatus(project.getStatus());
+        return this.projectRepository.save(projectToUpdate);
+    }
 }

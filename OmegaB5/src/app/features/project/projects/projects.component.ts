@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalDismissReasons, NgbCalendar, NgbDate, NgbDatepicker, NgbDateStruct, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AppConfigService } from 'src/app/services/app-config.service';
 import { AppContextService } from 'src/app/services/app-context.service';
+import { BaseComponent } from '../../base/base/base.component';
 import { ToastService } from '../../base/toast/toast.service';
 import { ProjectService } from '../service/project.service';
 
@@ -10,7 +12,7 @@ import { ProjectService } from '../service/project.service';
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.css']
 })
-export class ProjectsComponent implements OnInit {
+export class ProjectsComponent extends BaseComponent implements OnInit {
   projects:any[] = [];
   loading:boolean = false;
 
@@ -20,8 +22,11 @@ export class ProjectsComponent implements OnInit {
     private calender: NgbCalendar,
     private router: Router,
     private appContext: AppContextService,
-    private toastService: ToastService
-    ) { }
+    private toastService: ToastService,
+    private appConfigService: AppConfigService
+    ) {
+      super(appConfigService);
+    }
 
   ngOnInit(): void {
     this.loading = true;
@@ -94,6 +99,11 @@ export class ProjectsComponent implements OnInit {
     let projectToDelete = this.projects.filter(f => f.id == projectId)[0];
     //this.appContext.put('projectToDelete',projectToDelete);
     this.router.navigate(["/project/delete",{projectToDelete:JSON.stringify(projectToDelete)}]);
+  }
+
+  updateProjectPage(projectId:number): void {
+    let projectToUpdate = this.projects.filter(f => f.id == projectId)[0];
+    this.router.navigate(["/project/update",{projectToUpdate:JSON.stringify(projectToUpdate)}]);
   }
 
 }

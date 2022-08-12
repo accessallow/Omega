@@ -45,7 +45,7 @@
               <textarea class="form-control" id="projectDescription" rows="4" [(ngModel)]="form.description"></textarea>
             </div>
 
-            <div *ngIf="true">
+            <div *ngIf="debugMode">
               <pre>
                 {{form|json}}
               </pre>

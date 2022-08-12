@@ -7,6 +7,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastService } from './toast/toast.service';
 import { ToastsContainer } from './toast/toast.component';
 import { StatusPipe } from './status.pipe';
+import { BaseComponent } from './base/base.component';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -15,18 +17,21 @@ import { StatusPipe } from './status.pipe';
     HeaderComponent,
     SbButtonsComponent,
     ToastsContainer,
-    StatusPipe
+    StatusPipe,
+    BaseComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
-    NgbModule
+    NgbModule,
+    FormsModule
   ],
   exports: [
     HeaderComponent,
     SbButtonsComponent,
     ToastsContainer,
-    StatusPipe
+    StatusPipe,
+    BaseComponent
   ],
   providers: [
     ToastService

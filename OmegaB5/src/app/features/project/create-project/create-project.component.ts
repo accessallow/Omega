@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AppConfigService } from 'src/app/services/app-config.service';
 import { AppContextService } from 'src/app/services/app-context.service';
+import { BaseComponent } from '../../base/base/base.component';
 import { ToastService } from '../../base/toast/toast.service';
 import { ProjectService } from '../service/project.service';
-import { ZonedDateTime, ZoneId, DateTimeFormatter,LocalDate, LocalTime} from '@js-joda/core';
-import '@js-joda/timezone';
+
 
 @Component({
   selector: 'app-create-project',
   templateUrl: './create-project.component.html',
   styleUrls: ['./create-project.component.css'],
 })
-export class CreateProjectComponent implements OnInit {
+export class CreateProjectComponent extends BaseComponent implements OnInit {
   //Form properties
   form: any = {
     id: -1,
@@ -26,8 +27,11 @@ export class CreateProjectComponent implements OnInit {
     private projectService: ProjectService,
     private toastService: ToastService,
     private router: Router,
-    private appContext: AppContextService
-  ) {}
+    private appContext: AppContextService,
+    private appConfigService: AppConfigService
+  ) {
+    super(appConfigService);
+  }
 
   ngOnInit(): void {
     //HELLO
