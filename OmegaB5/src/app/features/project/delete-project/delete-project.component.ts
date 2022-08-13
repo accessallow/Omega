@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AppConfigService } from 'src/app/services/app-config.service';
 import { AppContextService } from 'src/app/services/app-context.service';
+import { BaseComponent } from '../../base/base/base.component';
 import { ProjectService } from '../service/project.service';
 
 @Component({
@@ -8,15 +10,18 @@ import { ProjectService } from '../service/project.service';
   templateUrl: './delete-project.component.html',
   styleUrls: ['./delete-project.component.css'],
 })
-export class DeleteProjectComponent implements OnInit {
+export class DeleteProjectComponent extends BaseComponent implements OnInit {
   project: any = null;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private appContext: AppContextService,
-    private projectService: ProjectService
-  ) {}
+    private projectService: ProjectService,
+    private appConfigService: AppConfigService
+  ) {
+    super(appConfigService);
+  }
 
   ngOnInit(): void {
     //  this.project = this.appContext.read('projectToDelete');

@@ -15,6 +15,9 @@ export class HeaderComponent implements OnInit {
   constructor(private menuService: MenuService, private appConfig : AppConfigService) {
       this.menu = this.menuService.menu;
       this.appName = this.appConfig.appName;
+      if(localStorage.getItem("debugMode")){
+        this.debugMode = localStorage.getItem("debugMode")=='true';
+      }
   }
 
   ngOnInit(): void {

@@ -9,7 +9,13 @@ export class BaseComponent{
   public debugMode:boolean = false;
 
   constructor(private appConfig: AppConfigService) {
-      this.appConfig.debugMode.subscribe(val => this.debugMode = val);
+      this.appConfig.debugMode.subscribe(val => {
+        this.debugMode = val;
+        localStorage.setItem("debugMode",""+val);
+      });
+      if(localStorage.getItem("debugMode")){
+        this.debugMode = localStorage.getItem("debugMode")=='true';
+      }
   }
 
 }

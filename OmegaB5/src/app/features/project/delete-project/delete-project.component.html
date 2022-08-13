@@ -7,13 +7,14 @@
       <div class="col-md-12">
         Are you sure want to delete this project: <b>{{project.name}}</b>?
 
-        <ng-container *ngIf="project">
+        <ng-container *ngIf="debugMode && project">
             <pre style="max-width:550px;max-height:300px;">
               {{project|json}}
             </pre>
 
         </ng-container>
 
+        <br/><br/>
         <div class="row">
             <div class="col-md-3">
               <button class="btn btn-sm btn-danger" (click)="deleteAndBack()">Delete</button> &nbsp;
