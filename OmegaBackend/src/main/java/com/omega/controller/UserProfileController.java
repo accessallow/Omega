@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -142,12 +143,12 @@ public class UserProfileController {
 
     @GetMapping(value = "/api/users/create_sp_test/",produces = "application/json")
     public Project createReleaseStructure(){
-        ZonedDateTime projectStart = ZonedDateTime.now();
+        LocalDateTime projectStart = LocalDateTime.now();
 
         Project p = new Project();
         p.setName("Test Project");
-//        p.setStart(projectStart);
-//        p.setEnd(projectStart.plusYears(2));
+        p.setStart(projectStart);
+        p.setEnd(projectStart.plusYears(2));
         p.setStatus(ProjectStatus.PLANNED);
         p.setDescription("Test Project Description");
 
@@ -156,8 +157,8 @@ public class UserProfileController {
         r1.setName("R1");
         r1.setLabel("R1");
         r1.setStatus(ReleaseStatus.PLANNED);
-//        r1.setStart(projectStart);
-//        r1.setEnd(projectStart.plusMonths(3));
+        r1.setStart(projectStart);
+        r1.setEnd(projectStart.plusMonths(3));
         List<Sprint> r1Sprints = getReleaseSprints(projectStart,3);
         r1.setSprints(r1Sprints);
         Event r1ReleaseEvent = new Event();
@@ -169,8 +170,8 @@ public class UserProfileController {
         r2.setName("R2");
         r2.setLabel("R2");
         r2.setStatus(ReleaseStatus.PLANNED);
-//        r2.setStart(projectStart.plusMonths(3));
-//        r2.setEnd(projectStart.plusMonths(6));
+        r2.setStart(projectStart.plusMonths(3));
+        r2.setEnd(projectStart.plusMonths(6));
         List<Sprint> r2Sprints = getReleaseSprints(projectStart.plusMonths(3),3);
         r2.setSprints(r2Sprints);
         Event r2ReleaseEvent = new Event();
@@ -195,7 +196,7 @@ public class UserProfileController {
 
         return projectRepository.save(p);
     }
-    public List<Sprint> getReleaseSprints(ZonedDateTime releaseStart, int numberOfSprints){
+    public List<Sprint> getReleaseSprints(LocalDateTime releaseStart, int numberOfSprints){
         List<Sprint> releaseSprints = new ArrayList<>();
         for(int i=1; i<=numberOfSprints;i++){
             Sprint sp1 = new Sprint();
@@ -204,8 +205,8 @@ public class UserProfileController {
             sp1.setStatus(SprintStatus.PLANNED);
             sp1.setDuration(15);
             sp1.setDescription("Sprint-"+i+" description");
-//            sp1.setStart(releaseStart.plusDays((i-1)*21));
-//            sp1.setEnd(releaseStart.plusDays((i)*21));
+            sp1.setStart(releaseStart.plusDays((i-1)*21));
+            sp1.setEnd(releaseStart.plusDays((i)*21));
             releaseSprints.add(sp1);
         }
         return releaseSprints;

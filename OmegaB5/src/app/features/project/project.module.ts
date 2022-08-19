@@ -9,12 +9,16 @@ import { BaseModule } from '../base/base.module';
 import { FormsModule } from '@angular/forms';
 import { ProjectService } from './service/project.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ProjectDetailsComponent } from './project-details/project-details.component';
+import { ReleaseTableComponent } from './release-table/release-table.component';
 
 const routes: Routes = [
   { path: 'all', component: ProjectsComponent },
   { path: 'create', component: CreateProjectComponent },
   { path: 'update', component: UpdateProjectComponent },
   { path: 'delete', component: DeleteProjectComponent },
+  { path: 'details', component: ProjectDetailsComponent },
+  { path: '**', component: ProjectsComponent },
 ];
 
 @NgModule({
@@ -22,7 +26,9 @@ const routes: Routes = [
     ProjectsComponent,
     CreateProjectComponent,
     UpdateProjectComponent,
-    DeleteProjectComponent
+    DeleteProjectComponent,
+    ProjectDetailsComponent,
+    ReleaseTableComponent
   ],
   imports: [
     CommonModule,

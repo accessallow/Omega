@@ -106,4 +106,9 @@ export class ProjectsComponent extends BaseComponent implements OnInit {
     this.router.navigate(["/project/update",{projectToUpdate:JSON.stringify(projectToUpdate)}]);
   }
 
+  projectDetailsPage(projectId:number): void {
+    let project = this.projects.filter(f => f.id == projectId)[0];
+    this.router.navigate(["/project/details",{project:JSON.stringify(project)}]);
+  }
+
 }

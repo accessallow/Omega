@@ -1,0 +1,113 @@
+<app-header></app-header>
+
+<!-- Begin page content -->
+<main class="flex-shrink-0">
+  <div class="container-fluid">
+
+    <div class="row">
+      <div class="col-md-12">
+
+        <h3>
+
+          <button (click)="cancelAndBack()" class="btn btn-outline-dark btn-sm"><i class="bi bi-backspace"></i>
+            Back</button>
+
+          &nbsp; {{project.name}}</h3>
+        <hr/>
+
+        <div class="card">
+          <div class="card-header d-flex">
+            Project Details
+            <button class="btn btn-outline-dark btn-sm ms-auto" (click)="updateProjectPage()">
+              <i class="bi bi-pencil-square"></i> Edit
+            </button>
+          </div>
+          <div class="card-body">
+            <table class="table table-hover table-striped table-bordered table-responsive table-compact"
+            style="font-size: 0.9em;"
+            >
+              <tbody>
+                <tr>
+                  <td><b>ID</b></td><td>{{project.id}}</td> <td><b>Name</b></td><td>{{project.name}}</td>
+                </tr>
+
+                <tr>
+                  <td><b>Start</b></td><td>{{project.start}}</td> <td><b>End</b></td><td>{{project.end}}</td>
+                </tr>
+
+
+                <tr>
+                  <td><b>Description</b></td><td colspan="3">{{project.description}}</td>
+                </tr>
+            </tbody>
+            </table>
+
+          </div>
+        </div>
+
+      </div>
+
+      </div>
+
+      <br/>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header d-flex">
+              Releases
+              <button class="btn btn-outline-dark btn-sm ms-auto" (click)="updateProjectPage()">
+                <i class="bi bi-plus-circle"></i> Add New
+              </button>
+            </div>
+            <div class="card-body">
+
+              <ng-container *ngIf="project.releases.length>0">
+
+                  <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs nav-pills nav-justified">
+
+                    <li [ngbNavItem]="r.id" *ngFor="let r of project.releases">
+                      <a ngbNavLink>{{r.name}}</a>
+                      <ng-template ngbNavContent>
+                        <app-release-table [release]="r"></app-release-table>
+                      </ng-template>
+                    </li>
+
+
+                  </ul>
+
+                  <div [ngbNavOutlet]="nav" class="mt-2"></div>
+
+              </ng-container>
+              <ng-container *ngIf="project.releases.length==0">
+                <div class="alert alert-secondary" role="alert">
+                  No releases available. Please add a release.
+                </div>
+              </ng-container>
+
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <br/>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card" *ngIf="debugMode">
+          <div class="card-header">
+            Debug
+          </div>
+          <div class="card-body">
+            <pre>
+              {{project | json }}
+            </pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+</main>
