@@ -1,6 +1,8 @@
 package com.omega.model.project;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.omega.utils.ZDTDeserializer;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,8 +24,10 @@ public class Release {
     private String description;
     private ReleaseStatus status;
     @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonDeserialize(using = ZDTDeserializer.class)
     private LocalDateTime start;
     @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonDeserialize(using = ZDTDeserializer.class)
     private LocalDateTime end;
     private String label;
 
