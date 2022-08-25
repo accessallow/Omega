@@ -9,6 +9,7 @@ import { ToastsContainer } from './toast/toast.component';
 import { StatusPipe } from './status.pipe';
 import { BaseComponent } from './base/base.component';
 import { FormsModule } from '@angular/forms';
+import { ValidationErrorComponent } from './validation-error/validation-error.component';
 
 
 
@@ -18,7 +19,8 @@ import { FormsModule } from '@angular/forms';
     SbButtonsComponent,
     ToastsContainer,
     StatusPipe,
-    BaseComponent
+    BaseComponent,
+    ValidationErrorComponent
   ],
   imports: [
     CommonModule,
@@ -31,7 +33,8 @@ import { FormsModule } from '@angular/forms';
     SbButtonsComponent,
     ToastsContainer,
     StatusPipe,
-    BaseComponent
+    BaseComponent,
+    ValidationErrorComponent
   ],
   providers: [
     ToastService

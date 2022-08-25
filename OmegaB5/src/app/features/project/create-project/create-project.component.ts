@@ -23,6 +23,14 @@ export class CreateProjectComponent extends BaseComponent implements OnInit {
     end: '',
   };
 
+  validations:any = {
+    project:false,
+    start:false,
+    end:false,
+    status:false,
+    pass:true
+  };
+
   constructor(
     private projectService: ProjectService,
     private toastService: ToastService,
@@ -48,7 +56,8 @@ export class CreateProjectComponent extends BaseComponent implements OnInit {
   }
 
   saveProject(): void {
-    this.projectService
+    if(this.validateAll()){
+      this.projectService
       .createProject({
         name: this.form.name,
         description: this.form.description,
@@ -68,10 +77,16 @@ export class CreateProjectComponent extends BaseComponent implements OnInit {
           );
         }
       );
+    }
   }
 
   validateAll() : boolean{
-      return false;
+      this.validations.project = this.form.name.trim().length == 0;
+      this.validations.start = this.form.start.trim().length == 0;
+      this.validations.end = this.form.end.trim().length == 0;
+      this.validations.status = this.form.status =='Select';
+
+      return !(this.validations.project || this.validations.start || this.validations.end || this.validations.status);
   }
 
   showInfo(): void {

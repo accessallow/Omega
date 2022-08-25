@@ -24,6 +24,13 @@ export class UpdateProjectComponent extends BaseComponent implements OnInit {
   //   start: '',
   //   end: '',
   // };
+  validations:any = {
+    project:false,
+    start:false,
+    end:false,
+    status:false,
+    pass:true
+  };
 
   constructor(
     private projectService: ProjectService,
@@ -57,8 +64,8 @@ export class UpdateProjectComponent extends BaseComponent implements OnInit {
   }
 
   saveProject(): void {
-
-    this.projectService
+    if(this.validateAll()){
+      this.projectService
       .updateProject(this.project)
       .subscribe(
         (response) => {
@@ -73,6 +80,16 @@ export class UpdateProjectComponent extends BaseComponent implements OnInit {
           );
         }
       );
+    }
   }
+
+  validateAll() : boolean{
+    this.validations.project = this.project.name.trim().length == 0;
+    this.validations.start = this.project.start.trim().length == 0;
+    this.validations.end = this.project.end.trim().length == 0;
+    this.validations.status = this.project.status =='Select';
+
+    return !(this.validations.project || this.validations.start || this.validations.end || this.validations.status);
+}
 
 }

@@ -13,22 +13,21 @@
             <div class="mb-3">
               <label for="projectName" class="form-label">Project Name</label>
               <input type="text" class="form-control" id="projectName" placeholder="" [(ngModel)]="form.name">
-              <span class="error-message" *ngIf="debugMode">
-                <i class="bi bi-exclamation-circle"></i>
-                Field is required
-              </span>
+              <validation-error *ngIf="validations.project">Project name is required</validation-error>
             </div>
             <div class="row">
               <div class="col-md-3">
                 <div class="mb-3">
                   <label for="projectStart" class="form-label">Start</label>
                   <input type="date" class="form-control" id="projectStart" placeholder="" [(ngModel)]="form.start">
+                  <validation-error *ngIf="validations.start">Start Date required</validation-error>
                 </div>
               </div>
               <div class="col-md-3">
                 <div class="mb-3">
                   <label for="projectEnd" class="form-label">End</label>
                   <input type="date" class="form-control" id="projectEnd" placeholder="" [(ngModel)]="form.end">
+                  <validation-error *ngIf="validations.end">End Date required</validation-error>
                 </div>
               </div>
               <div class="col-md-6">
@@ -40,6 +39,7 @@
                     <option value="1">Ongoing</option>
                     <option value="2">Completed</option>
                   </select>
+                  <validation-error *ngIf="validations.status">Status is required</validation-error>
                 </div>
               </div>
             </div>
@@ -52,6 +52,7 @@
             <div *ngIf="debugMode">
               <pre>
                 {{form|json}}
+                {{validations|json}}
               </pre>
             </div>
 
