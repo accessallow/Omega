@@ -14,7 +14,6 @@ import { ProjectService } from '../service/project.service';
 })
 export class ProjectsComponent extends BaseComponent implements OnInit {
   projects:any[] = [];
-  loading:boolean = false;
 
   constructor(
     private projectService: ProjectService,

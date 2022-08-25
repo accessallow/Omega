@@ -8,11 +8,15 @@
         <h3>Create Project</h3>
         <hr/>
 
-        <div class="row">
+        <div class="row needs-validation">
           <div class="col-md-8">
             <div class="mb-3">
               <label for="projectName" class="form-label">Project Name</label>
               <input type="text" class="form-control" id="projectName" placeholder="" [(ngModel)]="form.name">
+              <span class="error-message" *ngIf="debugMode">
+                <i class="bi bi-exclamation-circle"></i>
+                Field is required
+              </span>
             </div>
             <div class="row">
               <div class="col-md-3">

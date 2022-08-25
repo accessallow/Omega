@@ -26,9 +26,12 @@
         </form> -->
 
         <div class="d-flex">
-          <div class="form-check form-switch">
+          <span *ngIf="online" class="badge bg-success align-self-center">Connected</span>
+          <span *ngIf="!online" class="badge bg-danger align-self-center">Offline</span>
+
+          <div class="form-check form-switch" style="margin-left:10px;">
             <input class="form-check-input" [(ngModel)]="debugMode" (change)="toggleDebugMode()" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
-            <label class="form-check-label text-secondary" for="flexSwitchCheckChecked">Debug Mode</label>
+            <label class="form-check-label text-white" style="font-size:0.9em;" for="flexSwitchCheckChecked">Debug Mode</label>
           </div>
         </div>
 

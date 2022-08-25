@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ToastService } from './features/base/toast/toast.service';
+import { AppConfigService } from './services/app-config.service';
 import { LoginService } from './services/login.service';
 
 @Component({
@@ -7,13 +8,26 @@ import { LoginService } from './services/login.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy{
   title = 'spa-app';
   username:string = '';
   password:string = '';
+  healthCheckInterval:any;
 
-  constructor(private loginService : LoginService){
+  constructor(private loginService : LoginService, private appConfig: AppConfigService){
 
+  }
+
+
+
+  ngOnInit(){
+      this.healthCheckInterval = setInterval(()=>{
+        this.appConfig.healthCheckCall();
+      },this.appConfig.healthCheckTimeoutInterval);
+  }
+
+  ngOnDestroy(): void {
+      clearInterval(this.healthCheckInterval);
   }
 
   login(){

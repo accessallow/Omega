@@ -48,7 +48,6 @@ export class CreateProjectComponent extends BaseComponent implements OnInit {
   }
 
   saveProject(): void {
-
     this.projectService
       .createProject({
         name: this.form.name,
@@ -59,16 +58,23 @@ export class CreateProjectComponent extends BaseComponent implements OnInit {
       })
       .subscribe(
         (response) => {
-
           this.appContext.put('flash','Project created = ' + this.form.name);
           this.router.navigate(['project/all']);
         },
         (error) => {
-          this.toastService.successMessage(
+          this.toastService.errorMessage(
             'Error',
             'Error in creating project'
           );
         }
       );
+  }
+
+  validateAll() : boolean{
+      return false;
+  }
+
+  showInfo(): void {
+    console.log(this.form);
   }
 }

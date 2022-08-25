@@ -18,7 +18,6 @@ public class ProjectController {
     @GetMapping(value = "/api/project/all",produces = "application/json")
     public List<Project> getAllProjects(){
         List<Project> projects =  this.projectRepository.findAll();
-        projects.forEach(System.out::println);
         return projects;
     }
 

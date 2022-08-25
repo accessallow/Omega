@@ -8,7 +8,7 @@ import { ToastService } from './toast.service';
       *ngFor="let toast of toastService.toasts"
       [class]="toast.classname"
       [autohide]="true"
-      [header]="toast.header || 'Message'"
+
       [delay]="toast.delay || 5000"
       (hidden)="toastService.remove(toast)"
     >
@@ -17,7 +17,17 @@ import { ToastService } from './toast.service';
       </ng-template>
 
       <ng-template #text>
-        {{ toast.textOrTpl }}
+          <div class="d-flex">
+          {{ toast.textOrTpl }}
+
+          <button type="button"
+          class="btn-close btn-close-white me-2 m-auto"
+          style="color:white;"
+          data-bs-dismiss="toast"
+          aria-label="Close"></button>
+
+      </div>
+
       </ng-template>
 
     </ngb-toast>

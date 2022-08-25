@@ -8,12 +8,12 @@ import { Observable } from 'rxjs';
 })
 export class InterceptorService implements HttpInterceptor{
   token: any = '';
-  omitCalls = ['login'];
+  omitCalls = ['login','actuator'];
   skipInterceptor = false;
   constructor(private router: Router) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log("In interceptor");
+
 
     this.omitCalls.forEach(api => {
       if (req.url.includes(api)) {
