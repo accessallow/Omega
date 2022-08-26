@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AppConfigService } from 'src/app/services/app-config.service';
 import { AppContextService } from 'src/app/services/app-context.service';
 import { BaseComponent } from '../../base/base/base.component';
-import { ProjectService } from '../service/project.service';
+import { ProjectService } from '../services/project.service';
 
 @Component({
   selector: 'app-delete-project',
@@ -35,7 +35,7 @@ export class DeleteProjectComponent extends BaseComponent implements OnInit {
   }
 
   deleteAndBack() {
-    this.projectService.deleteProject(this.project).subscribe(next => {
+    this.projectService.delete(this.project).subscribe(next => {
       console.log("Delete call done!");
       this.appContext.put('flash','Project Deleted');
       console.log("navigate");

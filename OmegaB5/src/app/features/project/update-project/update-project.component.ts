@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppContextService } from 'src/app/services/app-context.service';
 import { ToastService } from '../../base/toast/toast.service';
-import { ProjectService } from '../service/project.service';
+import { ProjectService } from '../services/project.service';
 import * as moment from 'moment';
 import { BaseComponent } from '../../base/base/base.component';
 import { AppConfigService } from 'src/app/services/app-config.service';
@@ -66,7 +66,7 @@ export class UpdateProjectComponent extends BaseComponent implements OnInit {
   saveProject(): void {
     if(this.validateAll()){
       this.projectService
-      .updateProject(this.project)
+      .update(this.project)
       .subscribe(
         (response) => {
 

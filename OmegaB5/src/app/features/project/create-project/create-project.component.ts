@@ -4,7 +4,7 @@ import { AppConfigService } from 'src/app/services/app-config.service';
 import { AppContextService } from 'src/app/services/app-context.service';
 import { BaseComponent } from '../../base/base/base.component';
 import { ToastService } from '../../base/toast/toast.service';
-import { ProjectService } from '../service/project.service';
+import { ProjectService } from '../services/project.service';
 
 
 @Component({
@@ -58,7 +58,7 @@ export class CreateProjectComponent extends BaseComponent implements OnInit {
   saveProject(): void {
     if(this.validateAll()){
       this.projectService
-      .createProject({
+      .create({
         name: this.form.name,
         description: this.form.description,
         status: this.form.status,

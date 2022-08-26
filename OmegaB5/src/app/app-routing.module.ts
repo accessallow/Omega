@@ -15,6 +15,10 @@ const routes: Routes = [
     path: 'project',
     loadChildren: () => import('./features/project/project.module').then(m => m.ProjectModule)
   },
+  {
+    path: 'release',
+    loadChildren: () => import('./features/release/release.module').then(m => m.ReleaseModule)
+  },
   { path: '**', component: LoginComponent }
 ];
 

@@ -12,8 +12,8 @@ export class AppConfigService extends BaseDataService{
   public online = new Subject<boolean>();
   public healthCheckTimeoutInterval:number = 5000;
 
-  constructor(private httpClient: HttpClient){
-    super();
+  constructor(httpClient: HttpClient){
+    super(httpClient);
   }
 
   healthCheckCall() : void{

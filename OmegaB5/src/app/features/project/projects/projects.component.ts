@@ -5,7 +5,7 @@ import { AppConfigService } from 'src/app/services/app-config.service';
 import { AppContextService } from 'src/app/services/app-context.service';
 import { BaseComponent } from '../../base/base/base.component';
 import { ToastService } from '../../base/toast/toast.service';
-import { ProjectService } from '../service/project.service';
+import { ProjectService } from '../services/project.service';
 
 @Component({
   selector: 'app-projects',
@@ -29,7 +29,7 @@ export class ProjectsComponent extends BaseComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading = true;
-    this.projectService.getAllProjects().subscribe((projects)=>{
+    this.projectService.getAll().subscribe((projects)=>{
       this.projects = projects;
       this.projects.forEach(p => {
         switch(p.status){

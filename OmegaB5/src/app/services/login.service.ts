@@ -9,8 +9,8 @@ import { BaseDataService } from './base-data-service';
 export class LoginService extends BaseDataService {
   private loginServiceUrl = this.baseURL + '/token';
 
-  constructor(private httpClient: HttpClient) {
-    super();
+  constructor(httpClient: HttpClient) {
+    super(httpClient);
   }
 
   public login(username: string, password: string): Observable<any> {

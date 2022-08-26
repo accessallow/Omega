@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AppConfigService } from 'src/app/services/app-config.service';
 import { AppContextService } from 'src/app/services/app-context.service';
 import { BaseComponent } from '../../base/base/base.component';
-import { ProjectService } from '../service/project.service';
+import { ProjectService } from '../services/project.service';
 
 @Component({
   selector: 'app-project-details',
@@ -19,7 +19,7 @@ export class ProjectDetailsComponent extends BaseComponent implements OnInit {
     private route: ActivatedRoute,
     private appContext: AppContextService,
     private projectService: ProjectService,
-    private appConfigService: AppConfigService
+    appConfigService: AppConfigService
   ) {
     super(appConfigService);
   }
@@ -34,7 +34,7 @@ export class ProjectDetailsComponent extends BaseComponent implements OnInit {
   }
 
   deleteAndBack() {
-    this.projectService.deleteProject(this.project).subscribe(next => {
+    this.projectService.delete(this.project).subscribe(next => {
       console.log("Delete call done!");
       this.appContext.put('flash','Project Deleted');
       console.log("navigate");
@@ -48,6 +48,10 @@ export class ProjectDetailsComponent extends BaseComponent implements OnInit {
 
   updateProjectPage(): void {
     this.router.navigate(["/project/update",{projectToUpdate:JSON.stringify(this.project)}]);
+  }
+
+  addReleaseToProjectPage(): void{
+    this.router.navigate(["/release/create",{project:JSON.stringify(this.project)}]);
   }
 
 }
