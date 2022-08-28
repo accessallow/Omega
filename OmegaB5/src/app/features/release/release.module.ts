@@ -9,12 +9,15 @@ import { BaseModule } from '../base/base.module';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReleaseService } from './services/release.service';
+import { ReleasesComponent } from './releases/releases.component';
 
 const routes: Routes = [
   { path: 'create', component: CreateReleaseComponent },
   { path: 'update', component: UpdateReleaseComponent },
   { path: 'delete', component: DeleteReleaseComponent },
-  { path: 'details', component: ReleaseDetailsComponent }
+  { path: 'details', component: ReleaseDetailsComponent },
+  { path: 'all', component: ReleasesComponent },
+  { path: '**', component: ReleasesComponent }
 ];
 
 @NgModule({
@@ -22,7 +25,8 @@ const routes: Routes = [
     CreateReleaseComponent,
     UpdateReleaseComponent,
     DeleteReleaseComponent,
-    ReleaseDetailsComponent
+    ReleaseDetailsComponent,
+    ReleasesComponent
   ],
   imports: [
     CommonModule,

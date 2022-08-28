@@ -41,6 +41,54 @@ export class MenuService {
           icon: 'bi bi-folder-plus'
         }
       ]
+    },
+    {
+      title:'Releases',
+      icon :'bi bi-truck',
+      children: [
+        {
+          title: 'All',
+          routerLink: '/release/all',
+          icon: 'bi bi-list-ul'
+        },
+        {
+          title: 'Create',
+          routerLink: '/release/create',
+          icon: 'bi bi-folder-plus'
+        }
+      ]
+    },
+    {
+      title:'Sprints',
+      icon :'bi bi-balloon',
+      children: [
+        {
+          title: 'All',
+          routerLink: '/sprint/all',
+          icon: 'bi bi-list-ul'
+        },
+        {
+          title: 'Create',
+          routerLink: '/sprint/create',
+          icon: 'bi bi-folder-plus'
+        }
+      ]
+    },
+    {
+      title:'Events',
+      icon :'bi bi-lightning-charge',
+      children: [
+        {
+          title: 'All',
+          routerLink: '/event/all',
+          icon: 'bi bi-list-ul'
+        },
+        {
+          title: 'Create',
+          routerLink: '/event/create',
+          icon: 'bi bi-folder-plus'
+        }
+      ]
     }
   ];
 }
