@@ -64,13 +64,15 @@ export class UpdateProjectComponent extends BaseComponent implements OnInit {
   }
 
   saveProject(): void {
+    this.loading = true;
     if(this.validateAll()){
       this.projectService
       .update(this.project)
       .subscribe(
         (response) => {
 
-          this.appContext.put('flash','Project updated = ' + this.project.name);
+          this.appContext.put('flash','Project updated : ' + this.project.name);
+          this.loading = false;
           this.router.navigate(['project/all']);
         },
         (error) => {
@@ -78,6 +80,7 @@ export class UpdateProjectComponent extends BaseComponent implements OnInit {
             'Error',
             'Error in creating project'
           );
+          this.loading = false;
         }
       );
     }

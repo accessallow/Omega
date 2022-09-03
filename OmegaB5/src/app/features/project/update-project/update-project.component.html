@@ -56,7 +56,14 @@
             </div>
 
 
+            <div *ngIf="loading" class="loading_strip">
+              <img src="/assets/icons/loading.gif" style="width:25px;margin-top:-2px;"/>&nbsp;Saving Project
+            </div>
+
             <sb-buttons (onSave)="saveProject()"></sb-buttons>
+
+
+
             <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
 
           </div>

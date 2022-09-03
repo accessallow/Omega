@@ -2,7 +2,7 @@ package com.omega.model.project;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.omega.utils.ZDTDeserializer;
+import com.omega.utils.CustomDateDeserializer;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,7 +11,6 @@ import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 
 @Node
 @Getter @Setter @NoArgsConstructor
@@ -22,10 +21,10 @@ public class Sprint {
     private String description;
     private SprintStatus status;
     @JsonFormat(pattern = "dd-MM-yyyy")
-    @JsonDeserialize(using = ZDTDeserializer.class)
+    @JsonDeserialize(using = CustomDateDeserializer.class)
     private LocalDateTime start;
     @JsonFormat(pattern = "dd-MM-yyyy")
-    @JsonDeserialize(using = ZDTDeserializer.class)
+    @JsonDeserialize(using = CustomDateDeserializer.class)
     private LocalDateTime end;
     private int duration;
     private String label;

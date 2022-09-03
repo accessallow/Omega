@@ -18,6 +18,8 @@ import { ToastService } from './toast.service';
 
       <ng-template #text>
           <div class="d-flex">
+          <i class="{{toast.iconClass}}"></i>
+          &nbsp;
           {{ toast.textOrTpl }}
 
           <button type="button"

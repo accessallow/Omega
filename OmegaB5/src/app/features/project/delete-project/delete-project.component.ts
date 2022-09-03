@@ -35,10 +35,8 @@ export class DeleteProjectComponent extends BaseComponent implements OnInit {
   }
 
   deleteAndBack() {
-    this.projectService.delete(this.project).subscribe(next => {
-      console.log("Delete call done!");
-      this.appContext.put('flash','Project Deleted');
-      console.log("navigate");
+    this.projectService.delete(this.project.id).subscribe(next => {
+      this.appContext.put('flash','Project Deleted : '+this.project.name);
       this.router.navigate(['project/all']);
     });
   }

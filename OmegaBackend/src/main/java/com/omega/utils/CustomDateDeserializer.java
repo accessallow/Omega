@@ -10,12 +10,12 @@ import java.text.SimpleDateFormat;
 import java.time.*;
 import java.util.Date;
 
-public class ZDTDeserializer extends StdDeserializer<LocalDateTime> {
-    public ZDTDeserializer(Class<?> vc) {
+public class CustomDateDeserializer extends StdDeserializer<LocalDateTime> {
+    public CustomDateDeserializer(Class<?> vc) {
         super(vc);
     }
 
-    public ZDTDeserializer() {
+    public CustomDateDeserializer() {
         this(null);
     }
 

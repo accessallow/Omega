@@ -2,7 +2,7 @@ package com.omega.model.project;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.omega.utils.ZDTDeserializer;
+import com.omega.utils.CustomDateDeserializer;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,7 +13,6 @@ import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Relationship;
 
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.util.List;
 
 @Node
@@ -26,10 +25,10 @@ public class Project {
     private String description;
     private ProjectStatus status;
     @JsonFormat(pattern = "dd-MM-yyyy")
-    @JsonDeserialize(using = ZDTDeserializer.class)
+    @JsonDeserialize(using = CustomDateDeserializer.class)
     private LocalDateTime start;
     @JsonFormat(pattern = "dd-MM-yyyy")
-    @JsonDeserialize(using = ZDTDeserializer.class)
+    @JsonDeserialize(using = CustomDateDeserializer.class)
     private LocalDateTime end;
 
     @Relationship(type = "HAS_RELEASE")

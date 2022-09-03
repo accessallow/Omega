@@ -18,15 +18,15 @@ export class ToastService {
   }
 
   successMessage(header:string, message: string){
-    this.show(message, { header: header , classname: 'bg-success text-white'});
+    this.show(message, { header: header , classname: 'bg-success text-white', iconClass:'bi bi-check-circle'});
   }
   errorMessage(header:string, message: string){
-    this.show(message, { header: header , classname: 'bg-danger text-white'});
+    this.show(message, { header: header , classname: 'bg-danger text-white', iconClass:'bi bi-x-circle'});
   }
   warningMessage(header:string, message: string){
-    this.show(message, { header: header , classname: 'bg-warning text-white'});
+    this.show(message, { header: header , classname: 'bg-warning text-white', iconClass:'bi bi-exclamation-circle'});
   }
   alertMessage(header:string, message: string){
-    this.show(message, { header: header , classname: 'bg-primary text-white'});
+    this.show(message, { header: header , classname: 'bg-primary text-white', iconClass:'bi bi-exclamation-triangle'});
   }
 }
