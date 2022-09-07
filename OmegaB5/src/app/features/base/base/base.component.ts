@@ -10,6 +10,13 @@ export class BaseComponent{
   public online: boolean = true;
   public loading : boolean = false;
 
+  protected appOffline(): void{
+    //app is offline
+  }
+  protected appOnline(): void{
+    //app is online
+  }
+
   constructor(private appConfig: AppConfigService) {
       this.appConfig.debugMode.subscribe(val => {
         this.debugMode = val;
@@ -20,9 +27,16 @@ export class BaseComponent{
       }
 
       this.appConfig.online.subscribe(val => {
+        if(this.online==false && val==true){
+          this.appOnline();
+        }else if(this.online==true && val==false){
+          this.appOffline();
+        }
         this.online = val;
         localStorage.setItem("online",""+val);
+
       });
+
       if(localStorage.getItem("online")){
         this.online = localStorage.getItem("online")=='true';
       }

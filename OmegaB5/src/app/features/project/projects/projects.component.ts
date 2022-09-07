@@ -28,6 +28,16 @@ export class ProjectsComponent extends BaseComponent implements OnInit {
     }
 
   ngOnInit(): void {
+    this.loadProjects();
+
+    if(this.appContext.has('flash')){
+      let flashMessage = this.appContext.read('flash');
+      this.appContext.clear('flash');
+      this.toastService.successMessage('Project',flashMessage);
+    }
+  }
+
+  loadProjects(): void{
     this.loading = true;
     this.projectService.getAll().subscribe((projects)=>{
       this.projects = projects;
@@ -40,12 +50,6 @@ export class ProjectsComponent extends BaseComponent implements OnInit {
       });
       this.loading = false;
     });
-
-    if(this.appContext.has('flash')){
-      let flashMessage = this.appContext.read('flash');
-      this.appContext.clear('flash');
-      this.toastService.successMessage('Project',flashMessage);
-    }
   }
 
   closeResult = '';
@@ -108,6 +112,14 @@ export class ProjectsComponent extends BaseComponent implements OnInit {
   projectDetailsPage(projectId:number): void {
     let project = this.projects.filter(f => f.id == projectId)[0];
     this.router.navigate(["/project/details",{project:JSON.stringify(project)}]);
+  }
+
+  public override appOnline(): void {
+    this.loadProjects();
+  }
+
+  public override appOffline(): void {
+    
   }
 
 }

@@ -39,6 +39,11 @@ export class MenuService {
           title: 'Create',
           routerLink: '/project/create',
           icon: 'bi bi-folder-plus'
+        },
+        {
+          title: 'Project Planner',
+          routerLink: '/project-planner/plan',
+          icon: 'bi bi-calendar3'
         }
       ]
     },

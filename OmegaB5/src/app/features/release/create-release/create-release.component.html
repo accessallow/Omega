@@ -1,1 +1,75 @@
-<p>create-release works!</p>
+<app-header></app-header>
+
+<!-- Begin page content -->
+<main class="flex-shrink-0">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h3>Create Release</h3>
+        <hr/>
+
+        <div class="row needs-validation">
+          <div class="col-md-8">
+            <div class="mb-3">
+              <label for="projectName" class="form-label">Project Name</label>
+              <input type="text" class="form-control" id="projectName" placeholder="" [(ngModel)]="form.name">
+              <validation-error *ngIf="validations.project">Project name is required</validation-error>
+            </div>
+            <div class="row">
+              <div class="col-md-3">
+                <div class="mb-3">
+                  <label for="projectStart" class="form-label">Start</label>
+                  <input type="date" class="form-control" id="projectStart" placeholder="" [(ngModel)]="form.start">
+                  <validation-error *ngIf="validations.start">Start Date required</validation-error>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="mb-3">
+                  <label for="projectEnd" class="form-label">End</label>
+                  <input type="date" class="form-control" id="projectEnd" placeholder="" [(ngModel)]="form.end">
+                  <validation-error *ngIf="validations.end">End Date required</validation-error>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="projectStatus" class="form-label">Status</label>
+                  <select class="form-select" aria-label="Select Project Status" id="projectStatus" [(ngModel)]="form.status">
+                    <option selected>Select</option>
+                    <option value="0">Planned</option>
+                    <option value="1">Ongoing</option>
+                    <option value="2">Completed</option>
+                  </select>
+                  <validation-error *ngIf="validations.status">Status is required</validation-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="projectDescription" class="form-label">Description</label>
+              <textarea class="form-control" id="projectDescription" rows="4" [(ngModel)]="form.description"></textarea>
+            </div>
+
+            <div *ngIf="debugMode">
+              <pre>
+                {{form|json}}
+                {{validations|json}}
+              </pre>
+            </div>
+
+
+            <sb-buttons (onSave)="saveProject()"></sb-buttons>
+            <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+
+          </div>
+        </div>
+
+
+
+
+      </div>
+    </div>
+
+  </div>
+
+
+</main>
