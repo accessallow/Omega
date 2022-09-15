@@ -8,8 +8,171 @@
         <h3>Project Planner</h3>
         <hr/>
 
+        <div class="project-pallete" *ngIf="false">
+            <div class="project-details">
+
+            </div>
+            <div class="project-buttons" >
+                <button class="p-button" (click)="addInRelease('release',projectJson)">+Release</button>
+                <button class="p-button" (click)="addInRelease('break',projectJson)">+Break</button>
+                <button class="p-button" (click)="addInRelease('event',projectJson)">+Event</button>
+            </div>
+        </div>
+        <span *ngIf="debugMode">selected = {{selectedUUID}}</span>
+        <br/>
+
+        <div id="insert-direction">
+          Insert Direction: &nbsp;&nbsp;
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="up" [(ngModel)]="insertDirection">
+            <label class="form-check-label" for="inlineRadio1">Up</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="down" [(ngModel)]="insertDirection">
+            <label class="form-check-label" for="inlineRadio2">Down</label>
+          </div>
+        </div>
+
+      <div *ngFor="let r of projectJson.children">
+
+            <ng-container [ngSwitch]="r.type">
+              <span *ngIf="debugMode">{{r.uuid}}</span>
+              <div *ngSwitchCase="'release'" class="release {{r.data.selected?'selected':''}}">
+                <div class="release-head">
+                  <div class="release_header">
+                    <span style="background: rgb(4 4 4 / 24%);padding:4px;">Release</span>
+                      &nbsp;&nbsp;
+                      Name : <input type="text" value="{{r.data.name}}" [(ngModel)]="r.data.name"/>
+
+                  </div>
+                  <div class="release_buttons">
+                      <i class="bi bi-check-circle action-icons" (click)="select(r)"></i>
+                      <button class="p-button" (click)="addInRelease('sprint',r)">+Sprint</button>
+                      <button class="p-button" (click)="addInRelease('break',r)">+Break</button>
+                      <button class="p-button" (click)="addInRelease('event',r)">+Event</button>
+                      &nbsp;&nbsp;
+                      <i class="action-icons bi bi-x-square" (click)="deleteItem(r)"></i>
+                  </div>
+                </div>
+                <div class="release-body">
+                  <div class="{{s.data.selected?'selected':''}}" *ngFor="let s of r.children">
 
 
+                      <div *ngIf="s.type=='sprint'">
+                        <ng-container *ngTemplateOutlet="sprintTemplate, context:{sprint:s}"></ng-container>
+                      </div>
+                      <div *ngIf="s.type=='event'">
+                        <ng-container *ngTemplateOutlet="eventTemplate, context:{event:s}"></ng-container>
+                      </div>
+                      <div *ngIf="s.type=='break'">
+                        <ng-container *ngTemplateOutlet="breakTemplate, context:{break:s}"></ng-container>
+                      </div>
+
+
+                  </div>
+                </div>
+              </div>
+
+              <div *ngSwitchCase="'event'" class="{{r.data.selected?'selected':''}}">
+                <ng-container *ngTemplateOutlet="eventTemplate, context:{event:r}"></ng-container>
+              </div>
+
+              <div *ngSwitchCase="'break'" class="{{r.data.selected?'selected':''}}">
+                <ng-container *ngTemplateOutlet="breakTemplate, context:{break:r}"></ng-container>
+              </div>
+
+            </ng-container>
+
+
+      </div>
+
+
+      <ng-template #eventTemplate let-event="event">
+        <div class="event">
+          <div class="event-label">
+            Event
+          </div>
+          <div class="event-body">
+            Name : <input type="text" value="{{event.data.name}}" [(ngModel)]="event.data.name"/>
+            Start : <input type="date" value="{{event.data.start}}" [(ngModel)]="event.data.start"/>
+            End : <input type="date" value="{{event.data.end}}" [(ngModel)]="event.data.end"/>
+
+            <span class="days_badge" *ngIf="event.data.start!='' && event.data.end!=''">{{dateDiffInDays(event.data.start,event.data.end)}} Days
+            </span>
+
+          </div>
+          <div class="event-action">
+            <i class="bi bi-check-circle action-icons" (click)="select(event)"></i>
+            &nbsp;
+            <i class="action-icons bi bi-pen"></i>
+            &nbsp;
+            <i class="action-icons bi bi-x-square" (click)="deleteItem(event)"></i>
+          </div>
+        </div>
+      </ng-template>
+
+
+      <ng-template #sprintTemplate let-sprint="sprint">
+        <div class="sprint-row">
+          <div class="sprint-label">
+            Sprint
+          </div>
+          <div class="sprint-body">
+            Name : <input type="text" value="{{sprint.data.name}}" [(ngModel)]="sprint.data.name"/>
+            Start : <input type="date" value="{{sprint.data.start}}" [(ngModel)]="sprint.data.start"/>
+            End : <input type="date" value="{{sprint.data.end}}" [(ngModel)]="sprint.data.end"/>
+
+            <span class="days_badge" *ngIf="sprint.data.start!='' && sprint.data.end!=''">{{dateDiffInDays(sprint.data.start,sprint.data.end)}} Days
+            </span>
+          </div>
+          <div class="sprint-action">
+            <i class="bi bi-check-circle action-icons" (click)="select(sprint)"></i>
+            &nbsp;
+            <i class="action-icons bi bi-pen"></i>
+            &nbsp;
+            <i class="action-icons bi bi-x-square" (click)="deleteItem(sprint)"></i>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template #breakTemplate let-break="break">
+        <div class="break">
+          <div class="break-label">
+            Break
+          </div>
+          <div class="break-body">
+            Name : <input type="text" value="{{break.data.name}}" [(ngModel)]="break.data.name"/>
+            Start : <input type="date" value="{{break.data.start}}" [(ngModel)]="break.data.start"/>
+            End : <input type="date" value="{{break.data.end}}" [(ngModel)]="break.data.end"/>
+
+            <span class="days_badge" *ngIf="break.data.start!='' && break.data.end!=''">{{dateDiffInDays(break.data.start,break.data.end)}} Days
+            </span>
+
+          </div>
+          <div class="break-action">
+            <i class="bi bi-check-circle action-icons" (click)="select(break)"></i>
+            &nbsp;
+            <i class="action-icons bi bi-pen"></i>
+            &nbsp;
+            <i class="action-icons bi bi-x-square" (click)="deleteItem(break)"></i>
+          </div>
+        </div>
+      </ng-template>
+
+      <div class="project-vertical-buttons">
+        <button class="p-button rbutton" (click)="addInRelease('release',projectJson,true)">+Release</button>
+        <button class="p-button bbutton" (click)="addInRelease('break',projectJson,true)">+Break</button>
+        <button class="p-button ebutton" (click)="addInRelease('event',projectJson,true)">+Event</button>
+      </div>
+
+
+
+
+        <div class="debugPanel" *ngIf="debugMode">
+          <pre>
+            {{projectJson|json}}
+          </pre>
+        </div>
 
 
       </div>
