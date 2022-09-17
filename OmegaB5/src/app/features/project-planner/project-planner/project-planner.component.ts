@@ -1,3 +1,4 @@
+import { identifierName } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { find } from 'rxjs';
@@ -285,5 +286,38 @@ export class ProjectPlannerComponent extends BaseComponent implements OnInit {
         this.findAndDelete(item.children,uuid);
       }
     });
+  }
+
+  validateProjectJson(){
+    let validateResult:boolean = true;
+    let validate = function(node:any){
+      //Validate node's attribute
+      if(node && node.data){
+        if(node.type=='release'){
+          if(node.data?.name.trim()==''){
+            validateResult = false;
+            node.error = {};
+            node.error.message = "Insuffcient Data";
+          }
+        }
+        if(['sprint','event','break'].includes(node.type)){
+          if(node.data?.name.trim()=='' || node.data?.start.trim()=='' || node.data?.end.trim()==''){
+            validateResult = false;
+            node.error = {};
+            node.error.message = "Insuffcient Data";
+          }
+        }
+
+      }
+      //If node has children, validate their attributes
+      if(node.children && node.children.length>0){
+        node.children.forEach((ch:any) => {
+          validate(ch);
+        });
+      }
+    }
+    validate(this.projectJson);
+    console.log("Overall validation result = ",validateResult);
+    return validateResult;
   }
 }
