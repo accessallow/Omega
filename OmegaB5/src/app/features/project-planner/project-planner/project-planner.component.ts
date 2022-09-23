@@ -7,6 +7,7 @@ import { AppContextService } from 'src/app/services/app-context.service';
 import { BaseComponent } from '../../base/base/base.component';
 import { ToastService } from '../../base/toast/toast.service';
 import { ProjectService } from '../../project/services/project.service';
+import { ProjectPlannerService } from '../services/project-planner.service';
 
 @Component({
   selector: 'app-project-planner',
@@ -121,7 +122,8 @@ export class ProjectPlannerComponent extends BaseComponent implements OnInit {
     private toastService: ToastService,
     private router: Router,
     private appContext: AppContextService,
-    private appConfigService: AppConfigService
+    private appConfigService: AppConfigService,
+    private projectPlannerService: ProjectPlannerService
   ) {
     super(appConfigService);
   }
@@ -320,4 +322,12 @@ export class ProjectPlannerComponent extends BaseComponent implements OnInit {
     console.log("Overall validation result = ",validateResult);
     return validateResult;
   }
+
+  submitPayload() : void {
+    console.log("payload");
+    this.projectPlannerService.planProject(this.projectJson).subscribe(response => {
+      console.log("Response = ",response);
+    });
+  }
+
 }

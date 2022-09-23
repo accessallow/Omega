@@ -12,6 +12,7 @@ import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Relationship;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Node
@@ -31,8 +32,11 @@ public class Release {
     private String label;
 
     @Relationship(type = "HAS_SPRINT")
-    private List<Sprint> sprints;
+    private List<Sprint> sprints = new ArrayList<>();
 
     @Relationship(type = "HAS_EVENT")
-    private List<Event> releaseEvents;
+    private List<Event> events = new ArrayList<>();
+
+    @Relationship(type = "HAS_BREAK")
+    private List<Break> breaks  = new ArrayList<>();
 }

@@ -6,38 +6,22 @@ import com.omega.utils.CustomDateDeserializer;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
-import org.springframework.data.neo4j.core.schema.Relationship;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Node
-@Getter @Setter @NoArgsConstructor @ToString
-public class Project {
-    @Id
-    @GeneratedValue
+@Getter @Setter @NoArgsConstructor
+public class Break {
+    @Id @GeneratedValue
     private Long id;
     private String name;
-    private String description;
-    private ProjectStatus status;
     @JsonFormat(pattern = "dd-MM-yyyy")
     @JsonDeserialize(using = CustomDateDeserializer.class)
     private LocalDateTime start;
     @JsonFormat(pattern = "dd-MM-yyyy")
     @JsonDeserialize(using = CustomDateDeserializer.class)
     private LocalDateTime end;
-
-    @Relationship(type = "HAS_RELEASE")
-    private List<Release> releases = new ArrayList<>();
-
-    @Relationship(type = "HAS_EVENT")
-    private List<Event> events= new ArrayList<>();
-
-    @Relationship(type = "HAS_BREAK")
-    private List<Break> breaks= new ArrayList<>();
 }

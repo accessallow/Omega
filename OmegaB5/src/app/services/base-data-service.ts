@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 export class BaseDataService {
   protected baseURL = "http://localhost:8080";
   protected url = "";
-  private requestOptions = {headers: {'Content-Type': 'application/json'}};
+  protected requestOptions = {headers: {'Content-Type': 'application/json'}};
 
   constructor(public httpClient: HttpClient) {
 

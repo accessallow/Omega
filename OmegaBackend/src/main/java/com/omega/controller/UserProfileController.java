@@ -5,7 +5,6 @@ import com.omega.model.*;
 import com.omega.model.project.*;
 import com.omega.service.CustomerService;
 import com.omega.service.EpicService;
-import org.springframework.beans.ExtendedBeanInfoFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -164,7 +162,7 @@ public class UserProfileController {
         Event r1ReleaseEvent = new Event();
         r1ReleaseEvent.setName("R1-Release");
         r1ReleaseEvent.setDescription("R1 Release Activities");
-        r1.setReleaseEvents(Arrays.asList(r1ReleaseEvent));
+        r1.setEvents(Arrays.asList(r1ReleaseEvent));
 
         Release r2 = new Release();
         r2.setName("R2");
@@ -177,7 +175,7 @@ public class UserProfileController {
         Event r2ReleaseEvent = new Event();
         r2ReleaseEvent.setName("R2-Release");
         r2ReleaseEvent.setDescription("R2 Release Activities");
-        r2.setReleaseEvents(Arrays.asList(r2ReleaseEvent));
+        r2.setEvents(Arrays.asList(r2ReleaseEvent));
 
         eventRepository.save(r1ReleaseEvent);
         eventRepository.save(r2ReleaseEvent);

@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { BaseModule } from '../base/base.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ProjectPlannerService } from './services/project-planner.service';
 
 
 const routes: Routes = [
@@ -23,6 +24,8 @@ const routes: Routes = [
     BaseModule,
     NgbModule
   ],
-  providers: []
+  providers: [
+    ProjectPlannerService
+  ]
 })
 export class ProjectPlannerModule { }
