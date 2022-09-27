@@ -3,19 +3,21 @@ package com.omega.controller;
 import com.omega.jpa.ProjectRepository;
 import com.omega.model.project.*;
 import com.omega.model.requestobject.ProjectStructure;
+import com.omega.services.ProjectService;
 import com.omega.utils.OmegaUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @RestController
 public class ProjectController {
     @Autowired
     ProjectRepository projectRepository;
+    @Autowired
+    ProjectService projectService;
 
     @GetMapping(value = "/api/project/all",produces = "application/json")
     public List<Project> getAllProjects(){
@@ -49,71 +51,76 @@ public class ProjectController {
     @PostMapping(value = "/api/project/plan",produces = "application/json")
     public Project planProject(@RequestBody ProjectStructure projectStructure){
         System.out.println(projectStructure);
-        Project p = this.createProjectTree(projectStructure);
+        Project p = projectService.createProjectTree(projectStructure);
         return this.projectRepository.save(p);
     }
 
-    private Project createProjectTree(ProjectStructure project){
-        Project p = new Project();
-        p.setStatus(ProjectStatus.PLANNED);
-        p.setName(project.getData().get("name"));
-        p.setStart(OmegaUtils.getDate(project.getData().get("start")));
-        p.setEnd(OmegaUtils.getDate(project.getData().get("end")));
-        p.setDescription("");
+    ProjectStructure[] NO_ITEMS = {};
+    @GetMapping(value = "/api/project/get_structure/{projectId}",produces = "application/json")
+    public ProjectStructure getProjectStructure(@PathVariable("projectId") Long projectId){
+        AtomicInteger uuid = new AtomicInteger(1000);
 
-        for(ProjectStructure ps : project.getChildren()){
-            if(ps.getType().equalsIgnoreCase("release")){
-                p.getReleases().add(this.parseRelease(ps));
-            }else if(ps.getType().equalsIgnoreCase("event")){
-                p.getEvents().add(this.parseEvent(ps));
-            }else if(ps.getType().equalsIgnoreCase("break")){
-                p.getBreaks().add(this.parseBreak(ps));
-            }
+        Project p =  this.projectRepository.findById(projectId).get();
+        ProjectStructure ps = new ProjectStructure();
+        ps.setType("project");
+        Map<String,String> projectData = new HashMap<>();
+        projectData.put("name",p.getName());
+        projectData.put("start",OmegaUtils.getStrDate(p.getStart()));
+        projectData.put("end",OmegaUtils.getStrDate(p.getEnd()));
+        ps.setUuid(""+ uuid.getAndIncrement());
+        ps.setData(projectData);
+
+        List<ProjectStructure> psList = new ArrayList<>();
+
+        p.getReleases().forEach(r -> {
+            ProjectStructure pso = new ProjectStructure();
+            Map<String,String> releaseData = new HashMap<>();
+            releaseData.put("name",r.getName());
+            releaseData.put("start", OmegaUtils.getStrDate(r.getStart()));
+            releaseData.put("end",OmegaUtils.getStrDate(r.getEnd()));
+            pso.setType("release");
+            pso.setData(releaseData);
+            pso.setChildren(NO_ITEMS);
+            pso.setUuid(""+(uuid.incrementAndGet()));
+            psList.add(pso);
+        });
+        p.getEvents().forEach(e -> {
+            ProjectStructure pso = new ProjectStructure();
+            Map<String,String> eventData = new HashMap<>();
+            eventData.put("name",e.getName());
+            eventData.put("start",OmegaUtils.getStrDate(e.getStart()));
+            eventData.put("end",OmegaUtils.getStrDate(e.getEnd()));
+            pso.setType("event");
+            pso.setData(eventData);
+            pso.setChildren(NO_ITEMS);
+            pso.setUuid(""+(uuid.incrementAndGet()));
+            psList.add(pso);
+        });
+        p.getBreaks().forEach(b->{
+            ProjectStructure pso = new ProjectStructure();
+            Map<String,String> breakData = new HashMap<>();
+            breakData.put("name",b.getName());
+            breakData.put("start",OmegaUtils.getStrDate(b.getStart()));
+            breakData.put("end",OmegaUtils.getStrDate(b.getEnd()));
+            pso.setType("break");
+            pso.setData(breakData);
+            pso.setChildren(NO_ITEMS);
+            pso.setUuid(""+(uuid.incrementAndGet()));
+            psList.add(pso);
+        });
+        psList.sort(new PSSorter());
+        ps.setChildren(psList.toArray(new ProjectStructure[0]));
+
+        return ps;
+    }
+
+    class PSSorter implements Comparator<ProjectStructure>{
+
+        @Override
+        public int compare(ProjectStructure o1, ProjectStructure o2) {
+            LocalDateTime d1 = OmegaUtils.getDate(o1.getData().get("end"));
+            LocalDateTime d2 = OmegaUtils.getDate(o2.getData().get("end"));
+            return d1.compareTo(d2);
         }
-
-        return p;
-    }
-
-    private Release parseRelease(ProjectStructure p){
-        Release r = new Release();
-        r.setName(p.getData().get("name"));
-        r.setStart(OmegaUtils.getDate(p.getData().get("start")));
-        r.setEnd(OmegaUtils.getDate(p.getData().get("end")));
-
-        for(ProjectStructure ch : p.getChildren()){
-            if(ch.getType().equalsIgnoreCase("sprint")){
-                r.getSprints().add(this.parseSprint(ch));
-            }else if(ch.getType().equalsIgnoreCase("event")){
-                r.getEvents().add(this.parseEvent(ch));
-            }else if(ch.getType().equalsIgnoreCase("break")){
-                r.getBreaks().add(this.parseBreak(ch));
-            }
-        }
-
-        return r;
-    }
-
-    private Event parseEvent(ProjectStructure p){
-        Event e = new Event();
-        e.setName(p.getData().get("name"));
-        e.setStart(OmegaUtils.getDate(p.getData().get("start")));
-        e.setEnd(OmegaUtils.getDate(p.getData().get("end")));
-        return e;
-    }
-
-    private Break parseBreak(ProjectStructure p){
-        Break b = new Break();
-        b.setName(p.getData().get("name"));
-        b.setStart(OmegaUtils.getDate(p.getData().get("start")));
-        b.setEnd(OmegaUtils.getDate(p.getData().get("end")));
-        return b;
-    }
-
-    private Sprint parseSprint(ProjectStructure p){
-        Sprint b = new Sprint();
-        b.setName(p.getData().get("name"));
-        b.setStart(OmegaUtils.getDate(p.getData().get("start")));
-        b.setEnd(OmegaUtils.getDate(p.getData().get("end")));
-        return b;
     }
 }

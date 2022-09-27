@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class OmegaUtils {
@@ -21,5 +22,10 @@ public class OmegaUtils {
             ex.printStackTrace();
         }
         return z2;
+    }
+
+    public static String getStrDate(LocalDateTime date){
+        DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return date.format(f);
     }
 }
