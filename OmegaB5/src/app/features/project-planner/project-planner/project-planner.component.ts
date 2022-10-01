@@ -1,6 +1,6 @@
 import { identifierName } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { find } from 'rxjs';
 import { AppConfigService } from 'src/app/services/app-config.service';
 import { AppContextService } from 'src/app/services/app-context.service';
@@ -123,12 +123,19 @@ export class ProjectPlannerComponent extends BaseComponent implements OnInit {
     private router: Router,
     private appContext: AppContextService,
     private appConfigService: AppConfigService,
-    private projectPlannerService: ProjectPlannerService
+    private projectPlannerService: ProjectPlannerService,
+    private activatedRoute: ActivatedRoute
   ) {
     super(appConfigService);
   }
 
   ngOnInit(): void {
+    let id = this.activatedRoute.snapshot.paramMap.get("id");
+    if(id){
+      this.projectPlannerService.getProjectStructure(id).subscribe(ps => {
+        this.projectJson = ps;
+      });
+    }
     this.uuid(this.projectJson);
   }
 

@@ -80,7 +80,7 @@ public class ProjectController {
             releaseData.put("end",OmegaUtils.getStrDate(r.getEnd()));
             pso.setType("release");
             pso.setData(releaseData);
-            pso.setChildren(NO_ITEMS);
+            pso.setChildren(getReleaseChildren(r,uuid));
             pso.setUuid(""+(uuid.incrementAndGet()));
             psList.add(pso);
         });
@@ -114,12 +114,56 @@ public class ProjectController {
         return ps;
     }
 
+    public ProjectStructure[] getReleaseChildren(Release r, AtomicInteger uuid){
+        List<ProjectStructure> psList = new ArrayList<>();
+        r.getSprints().forEach(b->{
+            ProjectStructure pso = new ProjectStructure();
+            Map<String,String> breakData = new HashMap<>();
+            breakData.put("name",b.getName());
+            breakData.put("start",OmegaUtils.getStrDate(b.getStart()));
+            breakData.put("end",OmegaUtils.getStrDate(b.getEnd()));
+            pso.setType("sprint");
+            pso.setData(breakData);
+            pso.setChildren(NO_ITEMS);
+            pso.setUuid(""+(uuid.incrementAndGet()));
+            psList.add(pso);
+        });
+        r.getEvents().forEach(e -> {
+            ProjectStructure pso = new ProjectStructure();
+            Map<String,String> eventData = new HashMap<>();
+            eventData.put("name",e.getName());
+            eventData.put("start",OmegaUtils.getStrDate(e.getStart()));
+            eventData.put("end",OmegaUtils.getStrDate(e.getEnd()));
+            pso.setType("event");
+            pso.setData(eventData);
+            pso.setChildren(NO_ITEMS);
+            pso.setUuid(""+(uuid.incrementAndGet()));
+            psList.add(pso);
+        });
+        r.getBreaks().forEach(b->{
+            ProjectStructure pso = new ProjectStructure();
+            Map<String,String> breakData = new HashMap<>();
+            breakData.put("name",b.getName());
+            breakData.put("start",OmegaUtils.getStrDate(b.getStart()));
+            breakData.put("end",OmegaUtils.getStrDate(b.getEnd()));
+            pso.setType("break");
+            pso.setData(breakData);
+            pso.setChildren(NO_ITEMS);
+            pso.setUuid(""+(uuid.incrementAndGet()));
+            psList.add(pso);
+        });
+        psList.sort(new PSSorter());
+        return psList.toArray(new ProjectStructure[0]);
+    }
+
     class PSSorter implements Comparator<ProjectStructure>{
 
         @Override
         public int compare(ProjectStructure o1, ProjectStructure o2) {
             LocalDateTime d1 = OmegaUtils.getDate(o1.getData().get("end"));
             LocalDateTime d2 = OmegaUtils.getDate(o2.getData().get("end"));
+            if(d1==null)  return -1;
+            if(d2==null)  return 1;
             return d1.compareTo(d2);
         }
     }

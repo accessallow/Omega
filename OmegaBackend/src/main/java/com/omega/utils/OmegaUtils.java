@@ -25,7 +25,11 @@ public class OmegaUtils {
     }
 
     public static String getStrDate(LocalDateTime date){
-        DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        return date.format(f);
+        if(date!=null){
+            DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            return date.format(f);
+        }else{
+            return "";
+        }
     }
 }

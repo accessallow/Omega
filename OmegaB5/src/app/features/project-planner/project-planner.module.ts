@@ -9,7 +9,7 @@ import { ProjectPlannerService } from './services/project-planner.service';
 
 
 const routes: Routes = [
-  { path: 'plan', component: ProjectPlannerComponent },
+  { path: 'plan/:id', component: ProjectPlannerComponent },
   { path: '**', component: ProjectPlannerComponent },
 ];
 
