@@ -54,6 +54,19 @@ public class ProjectController {
         Project p = projectService.createProjectTree(projectStructure);
         return this.projectRepository.save(p);
     }
+    @PostMapping(value = "/api/project/plan/{projectId}",produces = "application/json")
+    public Project updateProjectPlan(@PathVariable("projectId") Long projectId, @RequestBody ProjectStructure projectStructure){
+        System.out.println(projectStructure);
+        System.out.println("ProjectId = "+projectId);
+        Project p = projectService.createProjectTree(projectStructure);
+
+        Project toDelete = this.projectRepository.findById(projectId).get();
+        this.projectRepository.delete(toDelete);
+
+        p.setId(toDelete.getId());
+
+        return this.projectRepository.save(p);
+    }
 
     ProjectStructure[] NO_ITEMS = {};
     @GetMapping(value = "/api/project/get_structure/{projectId}",produces = "application/json")

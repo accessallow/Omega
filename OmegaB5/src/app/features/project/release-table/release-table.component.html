@@ -38,7 +38,7 @@ margin-bottom: 10px;
               <td [innerHtml]="s.status | status"></td>
               <td><span class="badge bg-primary">{{s.start}}</span></td>
               <td><span class="badge bg-danger">{{s.end}}</span></td>
-              <td>{{s.duration}} Days</td>
+              <td>{{workingDaysBetweenDates(s.start,s.end)}} Days</td>
               <td><span class="badge bg-primary">{{s.label}}</span></td>
             </tr>
       </tbody>
@@ -76,7 +76,7 @@ margin-bottom: 10px;
               <td [innerHtml]="r.status | status"></td>
               <td>{{r.start}}</td>
               <td>{{r.end}}</td>
-              <td>{{r.duration}} Days</td>
+              <td>{{workingDaysBetweenDates(r.start,r.end)}} Days</td>
             </tr>
       </tbody>
     </table>

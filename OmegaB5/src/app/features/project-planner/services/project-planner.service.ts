@@ -18,4 +18,8 @@ export class ProjectPlannerService extends BaseDataService{
     return this.httpClient.get<any>(this.url+"/get_structure/"+projectId,this.requestOptions);
   }
 
+  updateProjectPlan(projectId:any,projectPlan:any){
+    return this.httpClient.post<any>(this.url+"/plan/"+projectId,JSON.stringify(projectPlan),this.requestOptions);
+  }
+
 }

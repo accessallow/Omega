@@ -8,19 +8,16 @@
         <h3>Project Planner</h3>
         <hr/>
 
-        <div class="project-pallete" *ngIf="false">
+        <div class="project-pallete" *ngIf="true">
             <div class="project-details">
-
-            </div>
-            <div class="project-buttons" >
-                <button class="p-button" (click)="addInRelease('release',projectJson)">+Release</button>
-                <button class="p-button" (click)="addInRelease('break',projectJson)">+Break</button>
-                <button class="p-button" (click)="addInRelease('event',projectJson)">+Event</button>
+              Name : <input type="text" value="{{projectJson.data.name}}" [(ngModel)]="projectJson.data.name"/>
+            Start : <input type="date" value="{{projectJson.data.start}}" [(ngModel)]="projectJson.data.start"/>
+            End : <input type="date" value="{{projectJson.data.end}}" [(ngModel)]="projectJson.data.end"/>
             </div>
         </div>
-        <br/>
 
-        <div id="insert-direction">
+
+        <div id="insert-direction" *ngIf="projectJson.children.length!=0">
           Insert Direction: &nbsp;&nbsp;
           <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="up" [(ngModel)]="insertDirection">
@@ -86,7 +83,7 @@
               </div>
 
             </ng-container>
-
+            <p></p>
 
       </div>
 
@@ -202,5 +199,6 @@
   </div>
 
   <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+  <loading-strip *ngIf="loading" text="Updating Project"></loading-strip>
 
 </main>

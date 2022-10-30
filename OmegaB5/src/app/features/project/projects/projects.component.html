@@ -22,7 +22,7 @@
 
         <hr/>
 
-        <div class="row">
+        <div class="row" *ngIf="projects.length>0">
           <div class="col-md-12">
 
             <table class="table table-hover table-bordered table-striped table-responsive">
@@ -85,18 +85,18 @@
               <span class="placeholder col-11 bg-success"></span>
             </p>
 
-
-            <p *ngIf="debugMode">This is debug mode paragraph</p>
-
-
-            <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
-
           </div>
         </div>
+
+        <no-items *ngIf="projects.length==0" singular="project" plural="projects"></no-items>
+
       </div>
     </div>
 
 
+    <!--Page background content-->
+
+    <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
 
     <ng-template #content let-modal>
       <div class="modal-header">
@@ -128,7 +128,7 @@
                     <td [innerHtml]="s.status | status"></td>
                     <td><span class="badge bg-primary">{{s.start}}</span></td>
                     <td><span class="badge bg-danger">{{s.end}}</span></td>
-                    <td>{{s.duration}}</td>
+                    <td>{{workingDaysBetweenDates(s.start,s.end)}}</td>
                     <td><span class="badge bg-primary">{{s.label}}</span></td>
                   </tr>
             </tbody>
@@ -154,9 +154,9 @@
                     <td>{{r.name}}</td>
                     <td>{{r.description}}</td>
                     <td [innerHtml]="r.status | status"></td>
-                    <td>{{r.start}}</td>
-                    <td>{{r.end}}</td>
-                    <td>{{r.duration}}</td>
+                    <td><span class="badge bg-primary">{{r.start}}</span></td>
+                    <td><span class="badge bg-danger">{{r.start}}</span></td>
+                    <td>{{workingDaysBetweenDates(r.start,r.end)}}</td>
                   </tr>
             </tbody>
           </table>
@@ -166,7 +166,6 @@
         <button type="button" class="btn btn-outline-dark" (click)="modal.close('Close')">Close</button>
       </div>
     </ng-template>
-
 
 
     <ng-template #calender let-modal>

@@ -56,9 +56,7 @@
             </div>
 
 
-            <div *ngIf="loading" class="loading_strip">
-              <img src="/assets/icons/loading.gif" style="width:25px;margin-top:-2px;"/>&nbsp;Saving Project
-            </div>
+            <loading-strip *ngIf="loading" text="Saving Project"></loading-strip>
 
             <sb-buttons (onSave)="saveProject()"></sb-buttons>
 

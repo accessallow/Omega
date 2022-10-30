@@ -117,6 +117,7 @@ export class ProjectPlannerComponent extends BaseComponent implements OnInit {
         }
       ]
   };
+  projectId:any;
 
   constructor(
     private toastService: ToastService,
@@ -134,6 +135,7 @@ export class ProjectPlannerComponent extends BaseComponent implements OnInit {
     if(id){
       this.projectPlannerService.getProjectStructure(id).subscribe(ps => {
         this.projectJson = ps;
+        this.projectId = id;
       });
     }
     this.uuid(this.projectJson);
@@ -174,57 +176,7 @@ export class ProjectPlannerComponent extends BaseComponent implements OnInit {
     return this.workingDaysBetweenDates(a,b);
   }
 
-  workingDaysBetweenDates(d0:any, d1:any){
-    /* Two working days and an sunday (not working day) */
-    let holidays = ['2016-05-03', '2016-05-05', '2016-05-07'];
-    let startDate:any = this.parseDate(d0);
-    let endDate:any = this.parseDate(d1);
-
-  // Validate input
-    if (endDate <= startDate) {
-      return 0;
-    }
-
-  // Calculate days between dates
-    let millisecondsPerDay = 86400 * 1000; // Day in milliseconds
-    startDate.setHours(0, 0, 0, 1);  // Start just after midnight
-    endDate.setHours(23, 59, 59, 999);  // End just before midnight
-    let diff = endDate - startDate;  // Milliseconds between datetime objects
-    let days = Math.ceil(diff / millisecondsPerDay);
-
-    // Subtract two weekend days for every week in between
-    let weeks = Math.floor(days / 7);
-    days -= weeks * 2;
-
-    // Handle special cases
-    let startDay = startDate.getDay();
-    let endDay = endDate.getDay();
-
-    // Remove weekend not previously removed.
-    if (startDay - endDay > 1) {
-      days -= 2;
-    }
-    // Remove start day if span starts on Sunday but ends before Saturday
-    if (startDay == 0 && endDay != 6) {
-      days--;
-    }
-    // Remove end day if span ends on Saturday but starts after Sunday
-    if (endDay == 6 && startDay != 0) {
-      days--;
-    }
-    /* Here is the code */
-    holidays.forEach(day => {
-      if ((day >= d0) && (day <= d1)) {
-        /* If it is not saturday (6) or sunday (0), substract it */
-        if ((this.parseDate(day).getDay() % 6) != 0) {
-          days--;
-        }
-      }
-    });
-    return days;
-  }
-
-  parseDate(input:any) {
+  public override parseDate(input:any) {
       // Transform date from text to date
     let parts = input.match(/(\d+)/g);
     // new Date(year, month [, date [, hours[, minutes[, seconds[, ms]]]]])
@@ -330,11 +282,63 @@ export class ProjectPlannerComponent extends BaseComponent implements OnInit {
     return validateResult;
   }
 
+  addDatesToReleases(){
+      this.projectJson.children.forEach((ch:any)=>{
+          if(ch.type == 'release'){
+            if(ch.children.length>0){
+              let first = ch.children[0];
+              let last = ch.children[ch.children.length-1];
+              ch.data['start'] = first.data.start;
+              ch.data['end'] = last.data.end;
+            }
+          }
+      });
+  }
+
   submitPayload() : void {
-    console.log("payload");
-    this.projectPlannerService.planProject(this.projectJson).subscribe(response => {
-      console.log("Response = ",response);
-    });
+    this.validateProjectJson();
+    this.addDatesToReleases();
+    console.log("payload",this.projectJson);
+    this.loading = true;
+    if(this.projectId){
+      this.updateProject();
+    }else{
+      this.createProject();
+    }
+  }
+
+  createProject(){
+    this.projectPlannerService.planProject(this.projectJson).subscribe(
+      (response) => {
+        this.loading = false;
+        this.appContext.put('flash','Project created = ' + this.projectJson.data.name);
+        this.router.navigate(['project/all']);
+      },
+      (error) => {
+        this.loading = false;
+        this.toastService.errorMessage(
+          'Error',
+          'Error in creating project'
+        );
+      }
+    );
+  }
+
+  updateProject() : void {
+    this.projectPlannerService.updateProjectPlan(this.projectId,this.projectJson).subscribe(
+      (response) => {
+        this.loading = false;
+        this.appContext.put('flash','Project updated = ' + this.projectJson.data.name);
+        this.router.navigate(['project/all']);
+      },
+      (error) => {
+        this.loading = false;
+        this.toastService.errorMessage(
+          'Error',
+          'Error in updating project'
+        );
+      }
+    );
   }
 
 }
